@@ -90,7 +90,33 @@ export default function App() {
     </header>
     <main className="dashboard">
       <section className="hero" id="overview"><div className="hero-copy"><div className="eyebrow"><span className="eyebrow-line"/> ANALISIS KONSUMSI ANTARPROVINSI <span className="year-tag">2024 — 2025</span></div><h1>Membaca ekonomi<br/><em>dari pola konsumsi.</em></h1><p>Intelijen pengeluaran penduduk untuk memahami disparitas wilayah, perubahan komposisi belanja, dan sinyal kerentanan pangan di 38 provinsi Indonesia.</p><div className="hero-meta"><span><i/> Dataset CSV Susenas</span><span>38 provinsi · Per kapita / bulan</span></div></div>
-        <div className="hero-visual"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="hero-core"><img src="/logo.png" alt="GeoEcon"/></div><span className="orbit-label label-a">PANGAN <b>{formatPercent(summary.nasional_susenas?.persen_makanan)}</b></span><span className="orbit-label label-b">TOTAL NASIONAL <b>{rupiahCompact(summary.nasional_susenas?.pengeluaran_total)}</b></span><span className="orbit-label label-c">PROVINSI <b>38</b></span></div>
+        <div className="hero-visual" aria-hidden="true">
+          <div className="orbit-system">
+            <div className="orbit orbit-one">
+              <span className="orbit-dot dot-1" />
+            </div>
+            <div className="orbit orbit-two">
+              <span className="orbit-dot dot-2" />
+            </div>
+            <div className="orbit orbit-three" />
+            <div className="hero-core" title="GeoEcon Insight">
+              <div className="core-aura" />
+              <img src="/logo.png" alt="GeoEcon"/>
+            </div>
+          </div>
+          <div className="orbit-label label-a" title="Proporsi konsumsi makanan nasional 2025">
+            <span className="badge-tag"><i className="badge-pulse pulse-green"/> PANGAN</span>
+            <b>{formatPercent(summary.nasional_susenas?.persen_makanan)}</b>
+          </div>
+          <div className="orbit-label label-b" title="Rata-rata pengeluaran total nasional per kapita sebulan">
+            <span className="badge-tag"><i className="badge-pulse pulse-amber"/> TOTAL NASIONAL</span>
+            <b>{rupiahCompact(summary.nasional_susenas?.pengeluaran_total)}</b>
+          </div>
+          <div className="orbit-label label-c" title="Cakupan analisis 38 provinsi">
+            <span className="badge-tag"><i className="badge-pulse pulse-teal"/> PROVINSI</span>
+            <b>38</b>
+          </div>
+        </div>
       </section>
       <section className="kpi-grid" aria-label="Indikator utama"><article className="kpi-card"><div className="kpi-top"><span>TOTAL NASIONAL 2025</span><Wallet/></div><strong>{rupiahCompact(summary.nasional_susenas?.pengeluaran_total)}</strong><p>rata-rata per kapita per bulan</p><div className="kpi-foot"><span>Perubahan dari 2024</span><b className={changeTotal>=0?'positive':'negative'}>{changeTotal>=0?'+':''}{changeTotal}%</b></div></article>
         <article className="kpi-card"><div className="kpi-top"><span>MEDIAN ANTARPROVINSI</span><BarChart3/></div><strong>{rupiahCompact(summary.median_pengeluaran_total)}</strong><p>titik tengah pengeluaran 38 provinsi</p><div className="kpi-foot"><span>Rentang data</span><b>{summary.total_provinsi} wilayah</b></div></article>
