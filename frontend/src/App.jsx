@@ -3,6 +3,7 @@ import { Area, AreaChart, CartesianGrid, Cell, ReferenceLine, ResponsiveContaine
 import { ArrowUpRight, BarChart3, ChevronDown, Download, Menu, MoveUpRight, SlidersHorizontal, TrendingDown, Wallet, X } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 import ChoroplethMap from './components/ChoroplethMap';
+import TypewriterTitle from './components/TypewriterTitle';
 import { fetchHealth, fetchSummary, fetchProvinces, fetchQuadrants, fetchGeoJSON } from './services/api';
 import { formatRupiah, formatPercent, getQuadrantMeta } from './utils/formatters';
 
@@ -89,7 +90,7 @@ export default function App() {
       {menuOpen && <nav className="mobile-nav">{sections.map(s=><button key={s.id} onClick={()=>go(s.id)}>{s.label}</button>)}</nav>}
     </header>
     <main className="dashboard">
-      <section className="hero" id="overview"><div className="hero-copy"><div className="eyebrow"><span className="eyebrow-line"/> ANALISIS KONSUMSI ANTARPROVINSI <span className="year-tag">2024 — 2025</span></div><h1>Membaca ekonomi<br/><em>dari pola konsumsi.</em></h1><p>Intelijen pengeluaran penduduk untuk memahami disparitas wilayah, perubahan komposisi belanja, dan sinyal kerentanan pangan di 38 provinsi Indonesia.</p><div className="hero-meta"><span><i/> Dataset CSV Susenas</span><span>38 provinsi · Per kapita / bulan</span></div></div>
+      <section className="hero" id="overview"><div className="hero-copy"><div className="eyebrow"><span className="eyebrow-line"/> ANALISIS KONSUMSI ANTARPROVINSI <span className="year-tag">2024 — 2025</span></div><TypewriterTitle /><p>Intelijen pengeluaran penduduk untuk memahami disparitas wilayah, perubahan komposisi belanja, dan sinyal kerentanan pangan di 38 provinsi Indonesia.</p><div className="hero-meta"><span><i/> Dataset CSV Susenas</span><span>38 provinsi · Per kapita / bulan</span></div></div>
         <div className="hero-visual" aria-hidden="true">
           <div className="orbit-system">
             <div className="orbit orbit-one">

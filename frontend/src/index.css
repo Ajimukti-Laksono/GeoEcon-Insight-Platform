@@ -205,8 +205,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
   .eyebrow { @apply flex items-center gap-2.5 font-mono text-[9px] font-medium tracking-[.16em] text-[#68776a]; }
   .eyebrow-line { @apply h-px w-6 bg-[#bd6849]; }
   .year-tag { @apply rounded-xl border border-[#dfd8c5] px-2 py-1 font-mono text-[9px] text-[#9a7445]; }
-  .hero h1 { @apply my-6 font-sans text-[clamp(40px,5.6vw,72px)] font-bold leading-[1.06] tracking-[-.065em] text-[#253b30]; }
-  .hero h1 em { @apply font-medium not-italic text-[#ba7455]; }
+  .hero h1, .typewriter-heading { @apply my-6 font-sans text-[clamp(40px,5.6vw,72px)] font-bold leading-[1.06] tracking-[-.065em] text-[#253b30]; min-height: 2.15em; }
+  .hero h1 em, .typewriter-heading em { @apply font-medium not-italic text-[#ba7455]; }
+  .typewriter-cursor { display: inline-block; margin-left: 3px; width: 4px; height: 0.85em; vertical-align: -0.04em; background-color: #ba7455; border-radius: 2px; animation: typewriter-blink 0.8s infinite; }
   .hero-copy>p { @apply m-0 max-w-[560px] text-sm leading-7 text-[#777b70]; }
   .hero-meta { @apply mt-7 flex gap-6 font-mono text-[10px] text-[#7c8077]; }
   .hero-meta span:first-child { @apply flex items-center gap-2; }
@@ -382,6 +383,12 @@ input[type="range"]::-webkit-slider-thumb:hover {
 @keyframes ping-pulse {
   0% { transform: scale(0.95); opacity: 0.8; }
   80%, 100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes typewriter-blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 
