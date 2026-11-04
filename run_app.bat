@@ -34,9 +34,20 @@ if not exist "frontend\node_modules" (
 )
 
 start "GeoEcon Backend" /D "%~dp0backend" cmd /k call run_backend.bat
-timeout /t 2 /nobreak >nul
+
 start "GeoEcon Frontend" /D "%~dp0frontend" cmd /k npm.cmd run dev
-timeout /t 3 /nobreak >nul
+echo Menunggu backend aktif di http://127.0.0.1:8000 ...
+set /a attempts=0
+:wait_backend
+curl.exe -s http://127.0.0.1:8000/api/health >nul 2>nul
+if not errorlevel 1 goto services_ready
+set /a attempts+=1
+if %attempts% gtr 30 goto services_ready
+timeout /t 1 /nobreak >nul
+goto wait_backend
+
+:services_ready
+timeout /t 1 /nobreak >nul
 start "" "http://localhost:5173"
 
 echo.

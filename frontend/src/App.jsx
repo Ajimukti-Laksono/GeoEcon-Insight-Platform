@@ -24,14 +24,21 @@ export default function App() {
   const [stimulus, setStimulus] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState('');
+  const [retryKey, setRetryKey] = useState(0);
   useEffect(() => {
     let alive = true;
     Promise.all([fetchHealth(), fetchSummary(), fetchProvinces(), fetchQuadrants(), fetchGeoJSON()]).then(([health,sum,prov,quad,geo]) => {
       if (!alive) return;
       setBackendStatus(health.status === 'healthy' ? 'healthy' : 'error'); setSummary(sum); setProvinces(prov); setQuadrants(quad); setGeojsonData(geo);
-    }).catch(e => { if (alive) { setError(e.message || 'Tidak dapat memuat data. Pastikan backend berjalan.'); setBackendStatus('error'); } });
+    }).catch(e => {
+      if (alive) {
+        setError(e.message || 'Tidak dapat memuat data. Menunggu backend siap...');
+        setBackendStatus('error');
+        setTimeout(() => { if (alive) setRetryKey(k => k + 1); }, 2500);
+      }
+    });
     return () => { alive = false; };
-  }, []);
+  }, [retryKey]);
   const selected = provinces.find(p => p.provinsi_id === selectedId) || provinces[0];
   const visible = useMemo(() => provinces.filter(p => p.provinsi.toLowerCase().includes(search.toLowerCase()) && (filterQ === 'all' || p.kuadran === filterQ)).sort((a,b) => sortKey === 'provinsi' ? a.provinsi.localeCompare(b.provinsi) : b[sortKey]-a[sortKey]), [provinces,search,sortKey,filterQ]);
   const scatter = provinces.map(p => ({...p, name:p.provinsi}));
@@ -50,7 +57,31 @@ export default function App() {
     const rows=[cols.join(','),...visible.map(p=>cols.map(k=>`"${String(p[k] ?? '').replaceAll('"','""')}"`).join(','))];
     const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv;charset=utf-8'})); a.download='analisis-pengeluaran-provinsi-2025.csv'; a.click(); URL.revokeObjectURL(a.href);
   };
-  if (!summary || !provinces.length) return <main className="loading-shell"><img src="/logo.png"/><span>Menyiapkan intelijen konsumsi…</span>{error && <p>{error}</p>}</main>;
+  if (!summary || !provinces.length) return (
+    <main className="loading-shell">
+      <img src="/logo.png" alt="GeoEcon"/>
+      <span>Menyiapkan intelijen konsumsi…</span>
+      {error && (
+        <div style={{ marginTop: '0.75rem', textAlign: 'center' }}>
+          <p style={{ color: '#ef4444', fontSize: '0.875rem', marginBottom: '0.5rem' }}>{error}</p>
+          <button
+            onClick={() => setRetryKey(k => k + 1)}
+            style={{
+              padding: '0.4rem 1rem',
+              fontSize: '0.8125rem',
+              backgroundColor: '#1f2937',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer'
+            }}
+          >
+            Coba Lagi Sekarang
+          </button>
+        </div>
+      )}
+    </main>
+  );
   return <div className="app-shell">
     <header className="topbar"><a className="brand" href="#overview" onClick={e=>{e.preventDefault();go('overview')}}><img src="/logo.png" alt="Logo GeoEcon"/><span><b>GeoEcon</b><small>INTELIJEN EKONOMI</small></span></a>
       <nav className="desktop-nav">{sections.map(s=><button key={s.id} className={activeTab===s.id?'active':''} onClick={()=>go(s.id)}>{s.label}</button>)}</nav>
