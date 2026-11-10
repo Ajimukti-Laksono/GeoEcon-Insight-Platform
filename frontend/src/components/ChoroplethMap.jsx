@@ -47,7 +47,7 @@ export default function ChoroplethMap({ geojsonData, provinces = [], selectedPro
   };
   const rankField = indicator === 'kuadran' ? 'pengeluaran_total' : indicator;
   const mapRows = [...provinces].sort((a,b) => b[rankField] - a[rankField]).slice(0, 5);
-  return <section className="atlas-card" id="map">
+  return <div className="atlas-card">
     <div className="atlas-heading"><div><span className="eyebrow">02 / INTELIJEN SPASIAL</span><h2>Peta pola konsumsi</h2><p>Jelajahi perbedaan pengeluaran, porsi pangan, dan perubahan nominal antarprovinsi.</p></div><span className="live-chip"><i /> 38 provinsi</span></div>
     <div className="map-toolbar">
       <div className="region-pills">{VIEWS.map(v => <button key={v.id} onClick={() => setView(v)} className={view.id === v.id ? 'active' : ''}>{v.label}</button>)}</div>
@@ -66,5 +66,5 @@ export default function ChoroplethMap({ geojsonData, provinces = [], selectedPro
         <small className="map-note">Peta menggunakan poligon administratif provinsi. Nilai indikator diturunkan dari CSV yang disediakan.</small>
       </aside>
     </div>
-  </section>;
+  </div>;
 }

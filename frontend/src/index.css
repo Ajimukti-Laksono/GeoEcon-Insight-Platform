@@ -20,6 +20,11 @@
   --mint-100: #E8F8D8;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
 body {
   margin: 0;
   background-color: #EEF2EF !important;
@@ -198,8 +203,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
   .menu-toggle { @apply grid place-items-center border-0 bg-transparent text-[#506754] lg:hidden; }
   .mobile-nav { @apply absolute left-0 right-0 top-[71px] grid grid-cols-3 gap-2 border-b border-[#e4e3d8] bg-[#fffef9] p-3 lg:hidden; }
   .mobile-nav button { @apply bg-[#f2f1e9]; }
+  .mobile-nav button.active { @apply bg-[#2d5542] text-white; }
   .dashboard { @apply mx-auto max-w-[1320px] px-[18px] md:px-8; }
-  .hero { @apply relative flex min-h-[400px] items-center justify-between overflow-hidden border-b border-[#e4e3d8] px-[5.5%] py-12 md:py-[70px]; }
+  .hero { @apply relative flex min-h-[400px] scroll-mt-24 items-center justify-between overflow-hidden border-b border-[#e4e3d8] px-[5.5%] py-12 md:py-[70px]; }
   .hero:after { content:''; @apply absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d5d2c4] to-transparent; }
   .hero-copy { @apply relative z-10 max-w-[660px]; }
   .eyebrow { @apply flex items-center gap-2.5 font-mono text-[9px] font-medium tracking-[.16em] text-[#68776a]; }
@@ -250,7 +256,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   .kpi-foot { @apply flex justify-between border-t border-[#edebe2] pt-2.5 text-[8px] text-[#93948b] md:text-[9px]; }
   .kpi-foot b { @apply font-mono text-[9px] font-medium text-[#4f6858] md:text-[10px]; }
   .positive,.change-positive { @apply text-[#427650]; }.negative { @apply text-[#b45648]; }
-  .feature-map { @apply mb-[72px]; }
+  .feature-map { @apply mb-[72px] scroll-mt-24; }
   .atlas-card { @apply overflow-hidden rounded-xl border border-[#e4e3d8] bg-[#fffef9] shadow-md; }
   .atlas-heading { @apply flex items-center justify-between px-4 py-5 md:px-7 md:py-6; }
   .atlas-heading .eyebrow { @apply mb-2; }

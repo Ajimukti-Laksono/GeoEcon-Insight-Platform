@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Area, AreaChart, CartesianGrid, Cell, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { ArrowUpRight, BarChart3, ChevronDown, Download, Menu, MoveUpRight, SlidersHorizontal, TrendingDown, Wallet, X } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
@@ -52,7 +52,42 @@ export default function App() {
   const simulatedTotal = selected ? (simulatedFood+selected.pengeluaran_non_makanan)*(1+stimulus/100) : 0;
   const simulatedShare = simulatedTotal ? simulatedFood*(1+stimulus/100)/simulatedTotal*100 : 0;
   const sections = [{id:'overview',label:'Ikhtisar'},{id:'map',label:'Peta'},{id:'trend',label:'Perubahan'},{id:'engel',label:'Pola konsumsi'},{id:'groups',label:'Kelompok'},{id:'simulator',label:'Simulasi'},{id:'table',label:'Data'}];
-  const go = id => { setActiveTab(id); setMenuOpen(false); document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); };
+  const isManualScroll = useRef(false);
+  const go = id => {
+    setActiveTab(id);
+    setMenuOpen(false);
+    isManualScroll.current = true;
+    const el = document.getElementById(id);
+    if (el) {
+      const navHeight = 72;
+      const buffer = 18;
+      const top = el.getBoundingClientRect().top + window.pageYOffset - navHeight - buffer;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    }
+    setTimeout(() => { isManualScroll.current = false; }, 800);
+  };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isManualScroll.current) return;
+      const scrollPosition = window.pageYOffset + 120;
+      if (window.innerHeight + window.pageYOffset >= document.documentElement.scrollHeight - 50) {
+        setActiveTab('table');
+        return;
+      }
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i].id);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.pageYOffset;
+          if (scrollPosition >= top) {
+            setActiveTab(sections[i].id);
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const exportCsv = () => {
     const cols=['provinsi','pulau','pengeluaran_total','pengeluaran_makanan','pengeluaran_non_makanan','persen_makanan','persen_non_makanan','pertumbuhan_total_persen','kuadran'];
     const rows=[cols.join(','),...visible.map(p=>cols.map(k=>`"${String(p[k] ?? '').replaceAll('"','""')}"`).join(','))];
@@ -87,7 +122,7 @@ export default function App() {
     <header className="topbar"><a className="brand" href="#overview" onClick={e=>{e.preventDefault();go('overview')}}><img src="/logo.png" alt="Logo GeoEcon"/><span><b>GeoEcon</b><small>INTELIJEN EKONOMI</small></span></a>
       <nav className="desktop-nav">{sections.map(s=><button key={s.id} className={activeTab===s.id?'active':''} onClick={()=>go(s.id)}>{s.label}</button>)}</nav>
       <div className="topbar-right"><span className={`data-status ${backendStatus}`}><i/>{backendStatus==='healthy'?'CSV TERHUBUNG':'MENUNGGU API'}</span><button className="menu-toggle" onClick={()=>setMenuOpen(!menuOpen)}>{menuOpen?<X/>:<Menu/>}</button></div>
-      {menuOpen && <nav className="mobile-nav">{sections.map(s=><button key={s.id} onClick={()=>go(s.id)}>{s.label}</button>)}</nav>}
+      {menuOpen && <nav className="mobile-nav">{sections.map(s=><button key={s.id} className={activeTab===s.id?'active':''} onClick={()=>go(s.id)}>{s.label}</button>)}</nav>}
     </header>
     <main className="dashboard">
       <section className="hero" id="overview"><div className="hero-copy"><div className="eyebrow"><span className="eyebrow-line"/> ANALISIS KONSUMSI ANTARPROVINSI <span className="year-tag">2024 — 2025</span></div><TypewriterTitle /><p>Intelijen pengeluaran penduduk untuk memahami disparitas wilayah, perubahan komposisi belanja, dan sinyal kerentanan pangan di 38 provinsi Indonesia.</p><div className="hero-meta"><span><i/> Dataset CSV Susenas</span><span>38 provinsi · Per kapita / bulan</span></div></div>
