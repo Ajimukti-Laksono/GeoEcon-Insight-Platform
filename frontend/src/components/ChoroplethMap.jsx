@@ -63,7 +63,7 @@ export default function ChoroplethMap({ geojsonData, provinces = [], selectedPro
       <aside className="map-insights"><div className="map-insights-label"><span>URUTAN TERTINGGI</span><Search size={15}/></div><div className="map-insights-title">Lima provinsi teratas</div>
         {mapRows.map((p,i) => <button className={`map-rank ${p.provinsi_id === selected ? 'chosen' : ''}`} key={p.provinsi_id} onClick={() => onSelectProvince(p.provinsi_id)}><b>{String(i+1).padStart(2,'0')}</b><span>{p.provinsi}<small>{formatRupiah(p.pengeluaran_total)} / kapita / bulan</small></span><i style={{background: p.kuadran ? QUADRANTS[p.kuadran] : '#6cbaa9'}}/></button>)}
         <div className="map-selected">{selectedProvince ? <><span>PROVINSI DIPILIH</span><strong>{selectedProvince.provinsi}</strong><p>{selectedProvince.kategori_wilayah} · Q{selectedProvince.kuadran}</p></> : <p>Pilih provinsi di peta atau daftar untuk melihat pola konsumsi.</p>}</div>
-        <small className="map-note">Peta menggunakan poligon administratif provinsi. Nilai indikator diturunkan dari CSV yang disediakan.</small>
+        <small className="map-note">Peta poligon 38 provinsi. Indikator pengeluaran bersumber resmi dari <a href="https://www.bps.go.id/id/statistics-table/1/OTQ1IzE=/rata---rata-pengeluaran-per-kapita-sebulan-untuk-makanan-dan-bukan-makanan-di-daerah-perkotaan-dan-perdesaan-menurut-provinsi--rupiah---2011-2024.html" target="_blank" rel="noopener noreferrer" className="bps-inline-link">Susenas BPS (bps.go.id)</a>.</small>
       </aside>
     </div>
   </div>;

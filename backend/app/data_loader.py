@@ -86,12 +86,39 @@ class SusenasDataLoader:
         self.geojson_enriched: Dict[str, Any] = {}
         self.summary_metrics: Dict[str, Any] = {}
         self.national_row: Dict[str, Any] = {}
+        self.source_files: Dict[str, Dict[str, Any]] = {}
         self.load_and_process()
 
     def load_and_process(self):
         current_path = _find_csv(self.data_dir, 2025, 'total')
         previous_path = _find_csv(self.data_dir, 2024, 'total')
         share_path = _find_csv(self.data_dir, 2025, 'share')
+        self.source_files = {
+            'total_2024': {
+                'key': 'total_2024',
+                'filename': os.path.basename(previous_path),
+                'path': previous_path,
+                'title': 'Rata-Rata Pengeluaran per Kapita Sebulan Untuk Makanan dan Bukan Makanan di Daerah Perkotaan dan Perdesaan Menurut Provinsi (rupiah), 2024',
+                'year': 2024,
+                'bps_url': 'https://www.bps.go.id/id/statistics-table/1/OTQ1IzE=/rata---rata-pengeluaran-per-kapita-sebulan-untuk-makanan-dan-bukan-makanan-di-daerah-perkotaan-dan-perdesaan-menurut-provinsi--rupiah---2011-2024.html',
+            },
+            'total_2025': {
+                'key': 'total_2025',
+                'filename': os.path.basename(current_path),
+                'path': current_path,
+                'title': 'Rata-Rata Pengeluaran per Kapita Sebulan Untuk Makanan dan Bukan Makanan di Daerah Perkotaan dan Perdesaan Menurut Provinsi (rupiah), 2025',
+                'year': 2025,
+                'bps_url': 'https://www.bps.go.id/id/statistics-table/1/OTQ1IzE=/rata---rata-pengeluaran-per-kapita-sebulan-untuk-makanan-dan-bukan-makanan-di-daerah-perkotaan-dan-perdesaan-menurut-provinsi--rupiah---2011-2024.html',
+            },
+            'share_2025': {
+                'key': 'share_2025',
+                'filename': os.path.basename(share_path),
+                'path': share_path,
+                'title': 'Persentase Pengeluaran per Kapita Sebulan Makanan dan Bukan Makanan di Daerah Perkotaan dan Perdesaan Menurut Provinsi, 2025',
+                'year': 2025,
+                'bps_url': 'https://www.bps.go.id/id/statistics-table/3/YkhNcmNWWllSVFZNVEcxWUwxb3dNWHA2VXk5V2R6MDkjMw==/persentase-pengeluaran-per-kapita-sebulan-makanan-dan-bukan-makanan-di-daerah-perkotaan-dan-perdesaan-menurut-provinsi.html',
+            },
+        }
         cur, prev, share = map(_read_csv, (current_path, previous_path, share_path))
         food_col, nonfood_col, total_col = (_column(cur, s) for s in ('- Makanan', '- Bukan Makanan', '- Jumlah'))
         old_food_col, old_nonfood_col, old_total_col = (_column(prev, s) for s in ('- Makanan', '- Bukan Makanan', '- Jumlah'))
@@ -174,7 +201,7 @@ class SusenasDataLoader:
             'perubahan_nasional_pangan_persen':round((nation_cur.food/nation_prev.food_2024-1)*100,2),
             'perubahan_nasional_non_pangan_persen':round((nation_cur.nonfood/nation_prev.nonfood_2024-1)*100,2),
             'perubahan_nasional_porsi_pangan_pp':round(float(nat_share.food_share - nation_prev.food_2024/nation_prev.total_2024*100),2),
-            'periode':'2024–2025', 'sumber_data':'CSV Susenas/BPS yang disediakan pengguna',
+            'periode':'2024–2025', 'sumber_data':'Badan Pusat Statistik (BPS) — Susenas 2024–2025',
         }
         self.quadrants_summary = []
         for q, definition in QUADRANT_DEFINITIONS.items():

@@ -11,6 +11,7 @@ for _p in [_parent_dir, _current_dir, _root_dir]:
         sys.path.insert(0, _p)
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional, Dict, Any
 
@@ -148,6 +149,42 @@ def simulate_policy_impact(payload: SimulationRequest):
         potongan_pangan_persen=payload.potongan_pangan_persen,
         stimulus_pendapatan_persen=payload.stimulus_pendapatan_persen
     )
+
+@app.get("/api/sources")
+def get_data_sources():
+    """Mengembalikan metadata sumber resmi BPS dan daftar berkas CSV asli."""
+    files = [
+        {
+            "key": info["key"],
+            "filename": info["filename"],
+            "title": info["title"],
+            "year": info["year"],
+            "bps_url": info["bps_url"],
+            "download_url": f"/api/sources/download/{info['key']}",
+        }
+        for info in data_engine.source_files.values()
+    ]
+    return {
+        "institution": "Badan Pusat Statistik (BPS) Republik Indonesia",
+        "survey": "Survei Sosial Ekonomi Nasional (Susenas) 2024–2025",
+        "portal_url": "https://www.bps.go.id",
+        "statistics_catalog_url": "https://www.bps.go.id/id/statistics-table",
+        "files": files,
+    }
+
+
+@app.get("/api/sources/download/{file_key}")
+def download_source_csv(file_key: str):
+    """Mengunduh file CSV mentah asli BPS yang digunakan sebagai sumber data."""
+    info = data_engine.source_files.get(file_key)
+    if not info or not os.path.exists(info["path"]):
+        raise HTTPException(status_code=404, detail="Berkas sumber data tidak ditemukan.")
+    return FileResponse(
+        path=info["path"],
+        media_type="text/csv; charset=utf-8",
+        filename=info["filename"],
+    )
+
 
 if __name__ == "__main__":
     import uvicorn

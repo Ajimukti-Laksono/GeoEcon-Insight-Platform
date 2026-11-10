@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
 
 async function request(path) {
   const response = await fetch(`${API_BASE_URL}${path}`);
@@ -29,6 +29,10 @@ export async function fetchQuadrants() {
 
 export async function fetchGeoJSON() {
   return request('/api/geojson');
+}
+
+export async function fetchDataSources() {
+  return request('/api/sources');
 }
 
 export async function simulatePolicy(payload) {

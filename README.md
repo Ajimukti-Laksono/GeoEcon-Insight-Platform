@@ -13,7 +13,13 @@ Dashboard intelijen ekonomi untuk menganalisis pola pengeluaran konsumsi per kap
 
 ## Sumber dan pengolahan data
 
-Backend membaca tiga CSV di `backend/data`:
+Data bersumber resmi dari **Badan Pusat Statistik (BPS) Republik Indonesia** hasil **Survei Sosial Ekonomi Nasional (Susenas) 2024–2025**:
+
+- **Portal Resmi BPS:** [https://www.bps.go.id](https://www.bps.go.id)
+- **Tabel Rata-rata Pengeluaran per Kapita Sebulan (Rupiah):** [Tabel Statistik BPS #945 (2011–2025)](https://www.bps.go.id/id/statistics-table/1/OTQ1IzE=/rata---rata-pengeluaran-per-kapita-sebulan-untuk-makanan-dan-bukan-makanan-di-daerah-perkotaan-dan-perdesaan-menurut-provinsi--rupiah---2011-2024.html)
+- **Tabel Persentase Pengeluaran per Kapita Sebulan:** [Tabel Dinamis BPS — Persentase Makanan dan Bukan Makanan](https://www.bps.go.id/id/statistics-table/3/YkhNcmNWWllSVFZNVEcxWUwxb3dNWHA2VXk5V2R6MDkjMw==/persentase-pengeluaran-per-kapita-sebulan-makanan-dan-bukan-makanan-di-daerah-perkotaan-dan-perdesaan-menurut-provinsi.html)
+
+Backend membaca tiga CSV asli BPS di `backend/data` (yang juga dapat diunduh langsung melalui modal **Verifikasi & Unduh CSV** di antarmuka web maupun endpoint `/api/sources`):
 
 1. `Rata-rata Pengeluaran ... 2024.csv` — nilai pengeluaran makanan, bukan makanan, dan jumlah.
 2. `Rata-rata Pengeluaran ... 2025.csv` — nilai pengeluaran makanan, bukan makanan, dan jumlah.
