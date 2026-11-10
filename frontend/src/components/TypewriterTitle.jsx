@@ -6,37 +6,33 @@ const LINE_TWO = 'dari pola konsumsi.';
 export default function TypewriterTitle() {
   const [displayedLine1, setDisplayedLine1] = useState('');
   const [displayedLine2, setDisplayedLine2] = useState('');
-  const [cursorLine, setCursorLine] = useState(1);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const cursorLine = displayedLine1.length >= LINE_ONE.length ? 2 : 1;
 
   useEffect(() => {
     let timer;
 
     if (!isDeleting) {
       if (displayedLine1.length < LINE_ONE.length) {
-        setCursorLine(1);
         timer = setTimeout(() => {
           setDisplayedLine1(LINE_ONE.slice(0, displayedLine1.length + 1));
         }, 70 + Math.random() * 25);
       } else if (displayedLine2.length < LINE_TWO.length) {
-        setCursorLine(2);
         timer = setTimeout(() => {
           setDisplayedLine2(LINE_TWO.slice(0, displayedLine2.length + 1));
         }, 65 + Math.random() * 20);
       } else {
-        setCursorLine(2);
         timer = setTimeout(() => {
           setIsDeleting(true);
         }, 8000);
       }
     } else {
       if (displayedLine2.length > 0) {
-        setCursorLine(2);
         timer = setTimeout(() => {
           setDisplayedLine2(displayedLine2.slice(0, -1));
         }, 28);
       } else if (displayedLine1.length > 0) {
-        setCursorLine(1);
         timer = setTimeout(() => {
           setDisplayedLine1(displayedLine1.slice(0, -1));
         }, 28);
@@ -55,12 +51,10 @@ export default function TypewriterTitle() {
       setDisplayedLine1(LINE_ONE);
       setDisplayedLine2(LINE_TWO);
       setIsDeleting(false);
-      setCursorLine(2);
     } else {
       setDisplayedLine1('');
       setDisplayedLine2('');
       setIsDeleting(false);
-      setCursorLine(1);
     }
   };
 
@@ -84,4 +78,3 @@ export default function TypewriterTitle() {
     </h1>
   );
 }
-
