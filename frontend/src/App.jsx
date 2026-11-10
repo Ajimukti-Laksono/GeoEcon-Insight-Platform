@@ -100,8 +100,8 @@ export default function App() {
               <span className="orbit-dot dot-2" />
             </div>
             <div className="orbit orbit-three" />
+            <div className="core-aura" />
             <div className="hero-core" title="GeoEcon Insight">
-              <div className="core-aura" />
               <img src="/logo.png" alt="GeoEcon"/>
             </div>
           </div>

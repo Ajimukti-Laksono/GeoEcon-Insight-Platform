@@ -220,11 +220,11 @@ input[type="range"]::-webkit-slider-thumb:hover {
   .orbit-dot { position: absolute; border-radius: 9999px; pointer-events: none; }
   .dot-1 { width: 9px; height: 9px; background: #4d795b; top: -4.5px; left: calc(50% - 4.5px); box-shadow: 0 0 10px 2px rgba(77, 121, 91, 0.65); }
   .dot-2 { width: 8px; height: 8px; background: #bd6849; top: calc(50% - 4px); right: -4px; box-shadow: 0 0 10px 2px rgba(189, 104, 73, 0.65); }
-  .hero-core { position: absolute; left: 50%; top: 50%; display: grid; height: 104px; width: 104px; place-items: center; border-radius: 9999px; border: 1px solid #e9e4d6; background: #fffdf6; animation: core-breathe 4.5s ease-in-out infinite; cursor: pointer; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease; z-index: 10; }
+  .hero-core { position: absolute; left: 50%; top: 50%; display: grid; height: 104px; width: 104px; place-items: center; border-radius: 9999px; overflow: hidden; border: 1.5px solid #ded9cb; background: #fffdf6; animation: core-breathe 4.5s ease-in-out infinite; cursor: pointer; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease; z-index: 10; }
   .hero-core:hover { transform: translate(-50%, -50%) scale(1.08) !important; box-shadow: 0 16px 36px -4px rgba(26, 77, 61, 0.25), 0 0 0 6px rgba(77, 121, 91, 0.12) !important; }
-  .hero-core img { height: 70px; width: 70px; object-fit: contain; user-select: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.06)); transition: transform 0.3s ease; }
-  .hero-core:hover img { transform: rotate(6deg) scale(1.05); }
-  .core-aura { position: absolute; inset: -14px; border-radius: 9999px; background: radial-gradient(circle, rgba(77, 121, 91, 0.15) 0%, rgba(189, 104, 73, 0.08) 55%, transparent 75%); pointer-events: none; animation: aura-pulse 3.5s ease-in-out infinite; }
+  .hero-core img { height: 90px; width: 90px; border-radius: 9999px; object-fit: cover; user-select: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.06)); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .hero-core:hover img { transform: rotate(6deg) scale(1.04); }
+  .core-aura { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 132px; height: 132px; border-radius: 9999px; background: radial-gradient(circle, rgba(77, 121, 91, 0.16) 0%, rgba(189, 104, 73, 0.08) 55%, transparent 75%); pointer-events: none; animation: aura-pulse 3.5s ease-in-out infinite; z-index: 9; }
   .orbit-label { position: absolute; display: grid; gap: 4px; border-radius: 8px; border: 1px solid #e8e4d9; background: rgba(255, 253, 246, 0.95); backdrop-filter: blur(4px); padding: 10px 14px; font-family: monospace; font-size: 8px; letter-spacing: 0.12em; color: #88897e; box-shadow: 0 4px 12px -2px rgba(0,0,0,0.08); cursor: default; user-select: none; transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease; z-index: 15; }
   .badge-tag { display: flex; align-items: center; gap: 6px; }
   .badge-pulse { display: inline-block; width: 6px; height: 6px; border-radius: 9999px; position: relative; }
