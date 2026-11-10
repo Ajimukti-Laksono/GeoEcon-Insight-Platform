@@ -31,3 +31,4 @@ export default function AnimatedNumber({ value = 0, duration = 850, format = (v)
 
   return <>{format(display)}</>;
 }
+

@@ -271,8 +271,12 @@ export default function App() {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <a className="brand" href="#overview" onClick={e => { e.preventDefault(); go('overview'); }}>
-          <img src="/logo.png" alt="Logo GeoEcon" />
+        <a className="brand brand-topbar" href="#overview" onClick={e => { e.preventDefault(); go('overview'); }}>
+          <div className="brand-logo-wrap">
+            <span className="brand-ring" aria-hidden="true" />
+            <img src="/logo.png" alt="Logo GeoEcon" />
+            <span className="brand-sheen" aria-hidden="true" />
+          </div>
           <span><b>GeoEcon</b><small>INTELIJEN EKONOMI</small></span>
         </a>
         <nav className="desktop-nav">
