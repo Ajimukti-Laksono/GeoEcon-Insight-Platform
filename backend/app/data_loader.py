@@ -220,8 +220,9 @@ class SusenasDataLoader:
         results=[]
         for p in selected:
             food=p['pengeluaran_makanan']*(1-potongan_pangan_persen/100)
-            total=(food+p['pengeluaran_non_makanan'])*(1+stimulus_pendapatan_persen/100)
-            share=food/(food+p['pengeluaran_non_makanan'])*100
+            base_sum = max(1.0, food + p['pengeluaran_non_makanan'])
+            total=base_sum*(1+stimulus_pendapatan_persen/100)
+            share=food/base_sum*100
             med=self.summary_metrics['median_pengeluaran_total']; med_share=self.summary_metrics['median_proporsi_pangan']
             q='I' if total<med and share>med_share else 'II' if total>=med and share>med_share else 'III' if total<med else 'IV'
             results.append({'provinsi_id':p['provinsi_id'],'provinsi':p['provinsi'],'kuadran_lama':p['kuadran'],'kuadran_baru':q,

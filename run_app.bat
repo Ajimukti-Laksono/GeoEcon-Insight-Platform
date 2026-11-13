@@ -6,9 +6,9 @@ cd /d "%~dp0"
 echo Starting GeoEcon Insight...
 echo.
 
-where py >nul 2>nul
-if not errorlevel 1 goto python_ok
 python --version >nul 2>nul
+if not errorlevel 1 goto python_ok
+where py >nul 2>nul
 if not errorlevel 1 goto python_ok
 if exist "%USERPROFILE%\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" goto python_ok
 

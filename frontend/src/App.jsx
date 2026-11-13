@@ -94,9 +94,13 @@ export default function App() {
       if (src) setSources(src);
     }).catch(e => {
       if (alive) {
-        setError(e.message || 'Tidak dapat memuat data. Menunggu backend siap...');
+        const rawMsg = e?.message || '';
+        const userFriendlyMsg = rawMsg.toLowerCase().includes('fetch') || rawMsg.toLowerCase().includes('network')
+          ? 'Sedang menghubungkan ke server backend (http://127.0.0.1:8000)... Sistem otomatis mencoba ulang.'
+          : (rawMsg || 'Tidak dapat memuat data. Menunggu backend siap...');
+        setError(userFriendlyMsg);
         setBackendStatus('error');
-        setTimeout(() => { if (alive) setRetryKey(k => k + 1); }, 2500);
+        setTimeout(() => { if (alive) setRetryKey(k => k + 1); }, 2000);
       }
     });
     return () => { alive = false; };
@@ -244,24 +248,31 @@ export default function App() {
 
   if (!summary || !provinces.length) return (
     <main className="loading-shell">
-      <img src="/logo.png" alt="GeoEcon" />
-      <span>Menyiapkan intelijen konsumsi…</span>
+      <div className="relative flex items-center justify-center">
+        <span className="absolute h-20 w-20 animate-ping rounded-full bg-[#1a4d3d]/15 pointer-events-none" />
+        <img src="/logo.png" alt="GeoEcon" className="relative z-10 h-16 w-16 rounded-full shadow-md" />
+      </div>
+      <span className="font-semibold text-[#1a4d3d]">Menyiapkan intelijen konsumsi…</span>
       {error && (
-        <div style={{ marginTop: '0.75rem', textAlign: 'center' }}>
-          <p style={{ color: '#ef4444', fontSize: '0.875rem', marginBottom: '0.5rem' }}>{error}</p>
+        <div style={{ marginTop: '0.75rem', textAlign: 'center', maxWidth: '380px', padding: '0 1rem' }}>
+          <p style={{ color: '#b35649', fontSize: '0.8125rem', marginBottom: '0.75rem', lineHeight: '1.4' }}>
+            {error}
+          </p>
           <button
             onClick={() => setRetryKey(k => k + 1)}
             style={{
-              padding: '0.4rem 1rem',
+              padding: '0.45rem 1.1rem',
               fontSize: '0.8125rem',
-              backgroundColor: '#1f2937',
-              color: '#fff',
+              fontWeight: 500,
+              backgroundColor: '#1a4d3d',
+              color: '#ffffff',
               border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer'
+              borderRadius: '8px',
+              cursor: 'pointer',
+              boxShadow: '0 2px 6px rgba(26, 77, 61, 0.2)'
             }}
           >
-            Coba Lagi Sekarang
+            Hubungkan Sekarang
           </button>
         </div>
       )}
